@@ -3,31 +3,17 @@ mydomain = ${DOMAIN}
 myorigin = ${DOMAIN}
 
 # we do NOT want to receive emails from any domain... specify an empty list here
-mydestination =
+mydestination = ${DOMAIN}
 
 # tells Postfix from which networks it should accept emails to send
 # subnet == Postfix should forward mail from SMTP clients in the same IP subnetworks as the local machine
 mynetworks_style = subnet
 
 # direct delivery to Internet
-relayhost =
+relayhost = ${RELAY}
 
 # accept emails from all network interfaces (we will restrict this using Docker networks)
 inet_interfaces = all
-
-# encrypt emails from this to the destination mail server
-smtp_tls_security_level = encrypt
-smtp_tls_mandatory_ciphers = high
-
-# do not require encryption from the client to this server
-smtpd_tls_security_level = none
-smtpd_relay_restrictions =  permit_mynetworks, defer_unauth_destination
-
-# opendkim
-milter_protocol = 2
-milter_default_action = tempfail
-smtpd_milters = inet:localhost:12301
-non_smtpd_milters = inet:localhost:12301
 
 # no limits on the email number
 mailbox_size_limit = 0
@@ -38,9 +24,19 @@ always_add_missing_headers = yes
 # hide details about this instance of Postfix
 smtpd_banner = $myhostname
 
-# hide details of the real email sender
-header_checks = regexp:/etc/postfix/header_checks
-
 # disable useless services
 biff = no
 readme_directory = no
+
+## Mailman config
+# Support the default VERP delimiter.
+recipient_delimiter = +
+unknown_local_recipient_reject_code = 550
+owner_request_special = no
+
+transport_maps =
+    regexp:/opt/mailman/core/var/data/postfix_lmtp
+local_recipient_maps =
+    regexp:/opt/mailman/core/var/data/postfix_lmtp
+relay_domains =
+    regexp:/opt/mailman/core/var/data/postfix_domains
