@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 # install packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt update && \
-    apt install -y --no-install-recommends supervisor postfix opendkim rsyslog && \
+    apt install -y --no-install-recommends supervisor postfix rsyslog && \
     rm -rf /var/lib/apt/lists/* 
 
 # mail server will be listening on this port
