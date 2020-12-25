@@ -7,7 +7,7 @@ mydestination = ${DOMAIN}
 
 # tells Postfix from which networks it should accept emails to send
 # subnet == Postfix should forward mail from SMTP clients in the same IP subnetworks as the local machine
-mynetworks_style = subnet
+mynetworks = ${MYNETWORKS}
 
 # direct delivery to Internet
 relayhost = ${RELAY}
@@ -27,6 +27,10 @@ smtpd_banner = $myhostname
 # disable useless services
 biff = no
 readme_directory = no
+
+# Only allow mynetworks
+smtpd_relay_restrictions = permit_mynetworks,
+    defer_unauth_destination
 
 ## Mailman config
 # Support the default VERP delimiter.
