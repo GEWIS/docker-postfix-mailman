@@ -15,6 +15,7 @@ fi
 
 # replace the placeholders in the configuration files
 PATTERN="s/\${DOMAIN}/${DOMAIN}/g"
+sed -i ${PATTERN} /etc/postfix/main.cf
 PATTERN="s/\${RELAY}/${RELAY}/g"
 sed -i ${PATTERN} /etc/postfix/main.cf
 
