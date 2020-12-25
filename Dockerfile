@@ -7,7 +7,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/* 
 
 # mail server will be listening on this port
-# EXPOSE 25
+EXPOSE 1025
 
 # add configuration files
 ADD ./config/supervisord/supervisord.conf   /etc/supervisor/supervisord.conf

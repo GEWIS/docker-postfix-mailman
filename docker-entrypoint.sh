@@ -27,5 +27,8 @@ sed -i ${PATTERN} /etc/postfix/main.cf
 PATTERN="s/\${MYNETWORKS}/${MYNETWORKS}/g"
 sed -i ${PATTERN} /etc/postfix/main.cf
 
+#We even listen on 1025 inside the container so UFW understands
+sed -i 's/smtp      inet  n       -       y       -       -       smtpd/1025      inet  n       -       y       -       -       smtpd/' /etc/postfix/master.cf
+
 # launch the processes supervisor
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
